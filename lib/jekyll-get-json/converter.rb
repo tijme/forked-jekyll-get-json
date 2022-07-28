@@ -4,6 +4,7 @@ require 'deep_merge'
 require 'open-uri'
 require "uri"
 require "net/http"
+require "base64"
 
 module JekyllGetJson
   class GetJsonGenerator < Jekyll::Generator
@@ -27,13 +28,13 @@ module JekyllGetJson
           username = ENV['JEKYLL_GITHUB_USERNAME']
           token = ENV['JEKYLL_GITHUB_TOKEN']
 
-          uri = URI(d['json'])
+          url = URI(d['json'])
 
           https = Net::HTTP.new(url.host, url.port)
           https.use_ssl = true
 
           request = Net::HTTP::Get.new(url)
-          request["Authorization"] =  "Basic " + Base64::encode64("#{username}:#{token}")
+          request["Authorization"] =  "Basic " + Base64::encode64("#{username}:#{token}").strip
 
           response = https.request(request)
           source = response.read_body
