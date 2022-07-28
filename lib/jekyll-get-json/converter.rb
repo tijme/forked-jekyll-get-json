@@ -37,7 +37,7 @@ module JekyllGetJson
           request["Authorization"] =  "Basic " + Base64::strict_encode64("#{username}:#{token}").strip
 
           response = https.request(request)
-          source = response.read_body
+          source = JSON.load(response.read_body)
           
 
           if target
