@@ -34,7 +34,7 @@ module JekyllGetJson
           https.use_ssl = true
 
           request = Net::HTTP::Get.new(url)
-          request["Authorization"] =  "Basic " + Base64::encode64("#{username}:#{token}").strip
+          request["Authorization"] =  "Basic " + Base64::strict_encode64("#{username}:#{token}").strip
 
           response = https.request(request)
           source = response.read_body
