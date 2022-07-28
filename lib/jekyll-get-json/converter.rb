@@ -26,7 +26,13 @@ module JekyllGetJson
           token = ENV['JEKYLL_GITHUB_TOKEN']
 
           uri = d['json'].sub("://", "://#{username}:#{token}@")
-          source = JSON.load(URI.open(uri))
+          puts uri
+          
+          contents = URI.open(uri)
+          puts contents
+          
+          source = JSON.load(contents)
+          puts source
 
           if target
             target.deep_merge(source)
