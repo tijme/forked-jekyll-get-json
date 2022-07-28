@@ -22,7 +22,11 @@ module JekyllGetJson
       config.each do |d|
         begin
           target = site.data[d['data']]
-          source = JSON.load(URI.open(d['json']))
+          username = ENV['JEKYLL_GITHUB_USERNAME']
+          token = ENV['JEKYLL_GITHUB_TOKEN']
+
+          uri = d['json'].sub("://", "://#{username}:#{token}@")
+          source = JSON.load(URI.open(uri))
 
           if target
             target.deep_merge(source)
